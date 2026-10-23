@@ -364,3 +364,21 @@ code{background:var(--sage-l);padding:.05em .4em;border-radius:6px;font-size:.9e
 .fee-inline-group .fee-inline{margin-left:8px}
 .nc-fees{margin:8px 4px 0;font-size:13px}
 .news-card{display:flex;flex-direction:column}
+/* ===== 日本語の改行（禁則・文節） =====
+   - Chrome/Edge：word-break:auto-phrase（JS なしでも文節で改行）
+   - Safari など：BudouX が文節の区切りに <wbr> を入れ、class="bx"（keep-all）で区切り以外では改行しない */
+body{line-break:strict}
+@supports (word-break:auto-phrase){ body{word-break:auto-phrase} }
+.bx{word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,.sec-ttl,summary,.hero-season,.st-head,.news-fees-ttl,.fee h3,.svc h3,.tips strong{text-wrap:balance}
+p,dd,li,figcaption,td{text-wrap:pretty}
+.nw{white-space:nowrap}
+.fee-price td .nw{font-variant-numeric:tabular-nums}
+.fee-sub{display:block;font-size:11.5px;font-weight:500;color:var(--muted);line-height:1.6;margin-top:1px}
+.fee-price th{font-weight:600}
+@media (max-width:420px){
+  .fee-price th{width:44%}
+}
+.news-list > li{min-width:0}
+.fee-links a{flex-shrink:0;max-width:100%}
+.memo-ttl{min-width:0}

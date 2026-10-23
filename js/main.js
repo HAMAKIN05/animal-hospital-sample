@@ -89,6 +89,9 @@
 
   /* ---------- 診療内容・費用・リスクの目安（fees.js ＋ fees-render.js） ---------- */
   var R = window.FeeRender;
+  /* 日本語の改行対策（BudouX）：最初はページ全体にまとめて適用し、その後は描き直した部分だけに適用 */
+  var jpReady = false;
+  function jpFix(el) { if (jpReady && el && window.JPBreak) { try { window.JPBreak.apply(el); } catch (e) {} } }
   var ON_INDEX = !!document.getElementById("fees-list");
   var FEE_BASE = ON_INDEX ? "" : "index.html";
   var feeById = R.feeById, feeIds = R.feeIds, legalNotes = R.legalNotes, feeCard = R.feeCard;
@@ -137,6 +140,7 @@
         '<p class="st-badge ' + badge[1] + '"><i></i>' + badge[0] + "</p>" +
         '<p class="st-head">' + headline + "</p>" +
         '<p class="st-sub">' + esc(sub) + "</p>" + nextHtml + upcomingClosures();
+      jpFix(el);
     }
     var hp = document.getElementById("hdr-status");
     if (hp) { hp.className = "hdr-status " + badge[1]; hp.innerHTML = "<i></i>" + badge[0]; }
@@ -155,9 +159,9 @@
       if (!info.closed || info.kind === "regular") continue;
       if (info.kind === "yearend") {
         if (seenYearEnd) continue; seenYearEnd = true;
-        list.push(esc(md(d)) + "〜 " + esc(info.reason));
+        list.push('<span class="nw">' + esc(md(d)) + "〜</span> " + esc(info.reason));
       } else {
-        list.push(esc(md(d)) + " " + esc(info.reason));
+        list.push('<span class="nw">' + esc(md(d)) + "</span> " + esc(info.reason));
       }
     }
     if (!list.length) return "";
@@ -254,7 +258,8 @@
         legalNotes(feeIds([], c.reminder.text), c.reminder.text) + feeLinks(rIds) + "</div>";
     }
     var hs = document.getElementById("hero-season");
-    if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + esc(c.title) + " →";
+    if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + esc(c.title) + "\u00a0→";
+    jpFix(box); jpFix(r); jpFix(hs);
     /* ヒーローの季節の一言のすぐ横に「費用・リスクの目安」リンク */
     var hf = document.getElementById("hero-season-fee");
     if (hf) {
@@ -279,7 +284,7 @@
     if (!box) return;
     var items = newsItems().slice(0, 3);
     box.innerHTML = items.map(function (n) {
-      var plain = n.body.replace(/※サンプル記事です。?/g, "").replace(/\n/g, " ");
+      var plain = n.body.replace(/※サンプル記事です。?/g, "").replace(/\n/g, "");
       return '<li class="news-card c-' + catKey(n.category) + '"><a href="news.html#' + newsId(n) + '">' +
         '<p class="nc-meta"><span class="cat">' + esc(n.category) + "</span>" + (isNew(n) ? '<span class="new">NEW</span>' : "") + "</p>" +
         '<h3>' + esc(n.title) + "</h3>" +
@@ -301,6 +306,7 @@
       box.innerHTML = all.filter(function (n) { return cur === "すべて" || n.category === cur; }).map(function (n) {
         return R.newsArticleHtml(n, isNew(n));
       }).join("");
+      jpFix(box);
     }
     draw();
     if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) { t.classList.add("is-target"); t.scrollIntoView(); } }
@@ -340,6 +346,8 @@
   renderSeason();
   renderNewsTop();
   renderNewsAll();
+  if (window.JPBreak) { try { window.JPBreak.apply(document.body); } catch (e) {} }
+  jpReady = true;
   // ページを開いたままでも状況が変わるよう1分ごとに更新（日時固定中は更新しない）
   if (!forced) setInterval(function () { NOW = new Date(); renderStatus(); }, 60000);
 
