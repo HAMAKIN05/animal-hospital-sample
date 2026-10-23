@@ -89,9 +89,8 @@
 
   /* ---------- 診療内容・費用・リスクの目安（fees.js ＋ fees-render.js） ---------- */
   var R = window.FeeRender;
-  /* 日本語の改行対策（BudouX）：最初はページ全体にまとめて適用し、その後は描き直した部分だけに適用 */
-  var jpReady = false;
-  function jpFix(el) { if (jpReady && el && window.JPBreak) { try { window.JPBreak.apply(el); } catch (e) {} } }
+  /* 日本語の改行：本文はふつうの折り返し。金額・時刻・日付・「数字＋単位」だけ改行させない（R.txt）。見出しは「|」の位置でだけ改行（R.ttl） */
+  var txt = R.txt, ttl = R.ttl, plain = R.plain;
   var ON_INDEX = !!document.getElementById("fees-list");
   var FEE_BASE = ON_INDEX ? "" : "index.html";
   var feeById = R.feeById, feeIds = R.feeIds, legalNotes = R.legalNotes, feeCard = R.feeCard;
@@ -139,8 +138,7 @@
       el.innerHTML =
         '<p class="st-badge ' + badge[1] + '"><i></i>' + badge[0] + "</p>" +
         '<p class="st-head">' + headline + "</p>" +
-        '<p class="st-sub">' + esc(sub) + "</p>" + nextHtml + upcomingClosures();
-      jpFix(el);
+        '<p class="st-sub">' + txt(sub) + "</p>" + nextHtml + upcomingClosures();
     }
     var hp = document.getElementById("hdr-status");
     if (hp) { hp.className = "hdr-status " + badge[1]; hp.innerHTML = "<i></i>" + badge[0]; }
@@ -244,9 +242,9 @@
     box.className = "season-body s-" + g.key;
     box.innerHTML =
       '<p class="season-kicker">' + (shownSeason === curSeason ? mon + "月のからだケア" : esc(g.season) + "（" + g.months.join("・") + "月）のからだケア") + "</p>" +
-      "<h3>" + esc(g.title) + "</h3><p class=\"season-lead\">" + esc(g.lead) + inlineFee(feeIds([], g.title + g.lead)) + "</p>" +
-      '<ol class="tips">' + g.tips.map(function (t) { return "<li><strong>" + esc(t[0]) + "</strong><span>" + esc(t[1]) + inlineFee(feeIds([], t.join(""))) + "</span></li>"; }).join("") + "</ol>";
-    var gText = g.title + g.lead + g.tips.map(function (t) { return t.join(""); }).join("") + g.reminder.text;
+      "<h3>" + ttl(g.title) + "</h3><p class=\"season-lead\">" + txt(g.lead) + inlineFee(feeIds([], plain(g.title) + g.lead)) + "</p>" +
+      '<ol class="tips">' + g.tips.map(function (t) { return "<li><strong>" + ttl(t[0]) + "</strong><span>" + txt(t[1]) + inlineFee(feeIds([], plain(t.join("")))) + "</span></li>"; }).join("") + "</ol>";
+    var gText = plain(g.title + g.lead + g.tips.map(function (t) { return t.join(""); }).join("") + g.reminder.text);
     var gIds = feeIds(g.fees, gText);
     box.innerHTML += legalNotes(gIds, gText) + feeLinks(gIds);
 
@@ -254,16 +252,15 @@
     var r = document.getElementById("reminder");
     if (r) {
       var rIds = feeIds(c.fees, c.reminder.text);
-      r.innerHTML = '<span class="rm-label">' + esc(c.reminder.label) + "</span><div><p>" + esc(c.reminder.text) + "</p>" +
+      r.innerHTML = '<span class="rm-label">' + esc(c.reminder.label) + "</span><div><p>" + txt(c.reminder.text) + "</p>" +
         legalNotes(feeIds([], c.reminder.text), c.reminder.text) + feeLinks(rIds) + "</div>";
     }
     var hs = document.getElementById("hero-season");
-    if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + esc(c.title) + "\u00a0→";
-    jpFix(box); jpFix(r); jpFix(hs);
+    if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + ttl(c.title + "\u00a0→");
     /* ヒーローの季節の一言のすぐ横に「費用・リスクの目安」リンク */
     var hf = document.getElementById("hero-season-fee");
     if (hf) {
-      var hIds = feeIds([], c.title), href = hIds.length === 1 ? "#fee-" + hIds[0] : (hIds.length || (c.fees || []).length) ? "#fees" : "";
+      var hIds = feeIds([], plain(c.title)), href = hIds.length === 1 ? "#fee-" + hIds[0] : (hIds.length || (c.fees || []).length) ? "#fees" : "";
       if (href) { hf.setAttribute("href", href); hf.hidden = false; } else hf.hidden = true;
     }
   }
@@ -287,10 +284,10 @@
       var plain = n.body.replace(/※サンプル記事です。?/g, "").replace(/\n/g, "");
       return '<li class="news-card c-' + catKey(n.category) + '"><a href="news.html#' + newsId(n) + '">' +
         '<p class="nc-meta"><span class="cat">' + esc(n.category) + "</span>" + (isNew(n) ? '<span class="new">NEW</span>' : "") + "</p>" +
-        '<h3>' + esc(n.title) + "</h3>" +
-        '<p class="nc-ex">' + esc(plain.length > 54 ? plain.slice(0, 54) + "…" : plain) + "</p>" +
+        '<h3>' + ttl(n.title) + "</h3>" +
+        '<p class="nc-ex">' + txt(plain.length > 54 ? plain.slice(0, 54) + "…" : plain) + "</p>" +
         '<p class="nc-date"><time datetime="' + n.date + '">' + dateLabel(n) + "</time></p></a>" +
-        (function () { var ids = feeIds(n.fees, n.title + plain.slice(0, 54)); return ids.length ? '<p class="nc-fees">' + inlineFee(ids) + "</p>" : ""; })() + "</li>";
+        (function () { var ids = feeIds(n.fees, R.plain(n.title) + plain.slice(0, 54)); return ids.length ? '<p class="nc-fees">' + inlineFee(ids) + "</p>" : ""; })() + "</li>";
     }).join("");
   }
 
@@ -306,10 +303,31 @@
       box.innerHTML = all.filter(function (n) { return cur === "すべて" || n.category === cur; }).map(function (n) {
         return R.newsArticleHtml(n, isNew(n));
       }).join("");
-      jpFix(box);
     }
     draw();
     if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) { t.classList.add("is-target"); t.scrollIntoView(); } }
+  }
+
+  /* 静的 HTML の本文にも「数字＋単位」などの改行防止を適用（flex/grid の直下は項目が分かれるので触らない） */
+  function wrapNumbers(root) {
+    var re = R.ATOM, list = [], w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), n;
+    while ((n = w.nextNode())) {
+      var p = n.parentElement;
+      if (!p || p.closest("script,style,noscript,.nw,svg,button,time,.cal")) continue;
+      if (/flex|grid/.test(getComputedStyle(p).display)) continue;
+      re.lastIndex = 0;
+      if (re.test(n.nodeValue)) list.push(n);
+    }
+    list.forEach(function (t) {
+      var v = t.nodeValue, frag = document.createDocumentFragment(), last = 0;
+      v.replace(re, function (m, off) {
+        if (off > last) frag.appendChild(document.createTextNode(v.slice(last, off)));
+        var sp = document.createElement("span"); sp.className = "nw"; sp.textContent = m; frag.appendChild(sp);
+        last = off + m.length; return m;
+      });
+      if (last < v.length) frag.appendChild(document.createTextNode(v.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    });
   }
 
   /* ---------- 共通 ---------- */
@@ -346,8 +364,7 @@
   renderSeason();
   renderNewsTop();
   renderNewsAll();
-  if (window.JPBreak) { try { window.JPBreak.apply(document.body); } catch (e) {} }
-  jpReady = true;
+  wrapNumbers(document.body);
   // ページを開いたままでも状況が変わるよう1分ごとに更新（日時固定中は更新しない）
   if (!forced) setInterval(function () { NOW = new Date(); renderStatus(); }, 60000);
 

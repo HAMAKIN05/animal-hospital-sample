@@ -10,8 +10,7 @@ const ROOT = path.join(__dirname, "..");
 const W = {};
 const ctx = vm.createContext({ window: W });
 for (const f of ["js/fees.js", "news.js"]) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
-const J = require(path.join(ROOT, "js/vendor/budoux-ja.min.js"));   // 文節区切り（Safari の改行対策）
-const R = require(path.join(ROOT, "js/fees-render.js"))(W, J);
+const R = require(path.join(ROOT, "js/fees-render.js"))(W);
 
 const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Tokyo" }).format(new Date()); // YYYY-MM-DD（日本時間）
 const news = (W.NEWS || []).filter(n => n && n.date && n.date <= today)
