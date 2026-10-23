@@ -6,7 +6,7 @@
   --r:6px; --shadow:none;
   --font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","BIZ UDPGothic","Yu Gothic",Meiryo,sans-serif;
   --round:var(--font);
-  --hand:"Klee One","Hiragino Mincho ProN","Yu Mincho",serif;
+  --hand:var(--font);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
@@ -197,6 +197,9 @@ code{background:var(--sage-l);padding:.05em .4em;border-radius:6px;font-size:.9e
 .sample-note{font-size:12px;color:var(--muted);margin-top:12px}
 
 .access{background:var(--paper)}
+.access .info{gap:0;border-top:1px solid var(--line);grid-template-columns:5.4em 1fr}
+.access .info dt,.access .info dd{padding:10px 0;border-bottom:1px solid var(--line)}
+.access .info dt{padding-top:12px}
 .access-grid{display:grid;gap:24px;align-items:center}
 .info{display:grid;grid-template-columns:4.2em 1fr;gap:10px 12px;margin:18px 0 0;font-size:15px}
 .info dt{font-weight:800;color:var(--green);font-size:13px;padding-top:3px}
@@ -395,14 +398,15 @@ th,td,button,.btn{overflow-wrap:break-word}
 .memo-ttl{min-width:0}
 
 /* =====================================================================
-   人の手で作った感じに（2026-10）
+   ふつうの町の動物病院のサイトに寄せる（2026-10 改）
    - 角丸は小さく、影・グラデーション・装飾の円は使わない
-   - 主役は「電話」と「本日の診療状況」だけ。ほかは罫線と余白で整理
-   - 手書き風の書体（Klee One）は院長の手紙・ひとこと・写真の説明だけに使う
+   - 手書き風の書体・傾けた写真・マスキングテープ・坂のイラストはやめる
+   - 上に写真、その下に「電話・受付時間・休診日・駐車場」。実在の病院サイトの並びに合わせる
    ===================================================================== */
 body{background:var(--bg)}
 h1,h2,h3{letter-spacing:.02em}
-.hand{font-family:var(--hand);font-weight:600}
+.hand{font-family:var(--font);font-weight:inherit}
+
 .btn{border-radius:6px;box-shadow:none;padding:12px 22px}
 .btn:hover{transform:none;filter:brightness(1.06)}
 .btn-primary{box-shadow:none}
@@ -411,26 +415,26 @@ h1,h2,h3{letter-spacing:.02em}
 .menu-btn{border-radius:6px}
 .site-header{background:rgba(251,250,246,.96)}
 
-/* hero：文字が主役。写真は小さく、説明つき */
-.hero{background:var(--bg);padding:22px 0 34px;border-bottom:1px solid var(--line)}
-.hero-grid{display:grid;gap:26px}
+/* hero：上に写真、下に病院名のコピーと受付情報 */
+.hero{background:var(--bg);padding:0 0 30px;border-bottom:1px solid var(--line)}
+.hero-photo{margin:0;position:relative;width:100%}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:62% 50%}
+.hero-photo .img-tag{top:auto;bottom:10px;right:10px;border-radius:3px}
+.hero-grid{display:grid;gap:22px;padding-top:22px}
 .hero-copy{position:static;margin:0;padding:0;background:none;border-radius:0;max-width:none}
-.hero-status{position:static;display:inline-flex;margin:0 0 14px;box-shadow:none;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
-.hero h1{color:var(--ink);font-family:var(--hand);font-weight:600;line-height:1.38;margin-bottom:.1em;font-size:clamp(30px,8.4vw,56px)}
-.slope{display:block;width:min(100%,420px);height:auto;margin:2px 0 14px;overflow:visible}
-.slope path{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.slope .slope-house path,.slope .slope-dog path{stroke:var(--ink);stroke-width:1.8}
-.hero-lead{color:var(--ink);font-size:16px;line-height:1.9;max-width:26em}
+.hero-status{position:static;display:inline-flex;margin:0 0 12px;box-shadow:none;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+.hero h1{color:var(--green-d);font-family:var(--font);font-weight:700;line-height:1.4;margin-bottom:.35em;font-size:clamp(28px,7.6vw,44px)}
+.hero-lead{color:var(--ink);font-size:16px;line-height:1.85;max-width:26em;margin-bottom:.8em}
 .hero-season{background:none;border:0;border-radius:0;padding:0;color:var(--ink);font-size:14px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
 .hero-season b{background:none;color:var(--accent);padding:0;font-size:13px;margin-right:6px;border-radius:0;font-weight:800}
-.hero-cta{margin-top:4px}
-.hero-note{margin:14px 0 0;font-size:15px;color:var(--muted)}
-.hero-photo{margin:0;position:relative;max-width:520px;justify-self:center;width:100%}
-.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:62% 50%;border:6px solid #fff;outline:1px solid var(--line);transform:rotate(-1.2deg);filter:saturate(.82)}
-.hero-photo::before{content:"";position:absolute;z-index:2;top:-9px;left:42%;width:78px;height:20px;background:rgba(240,196,92,.55);transform:rotate(-4deg)}
-.hero-photo .img-tag{top:14px;right:14px;bottom:auto;border-radius:3px}
-.hero-photo figcaption{font-size:14px;color:var(--muted);margin-top:10px;text-align:right}
-.hero-img + .img-tag{bottom:auto}
+.hero-info{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--green);padding:14px 16px 16px}
+.hi-tel{display:none;margin:0 0 6px}
+.hi-tel span{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.hi-tel a{font-size:30px;font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:.04em;line-height:1.3}
+.hi-dl{display:grid;grid-template-columns:4em 1fr;gap:6px 10px;margin:0 0 14px;font-size:15px;line-height:1.6}
+.hi-dl dt{font-weight:700;color:var(--green);font-size:13.5px;padding-top:1px}
+.hi-dl dd{margin:0}
+.hero-cta{margin-top:0}
 
 /* 診療状況：掲示板のように */
 .status-wrap{background:var(--bg);padding:28px 0 44px}
@@ -440,33 +444,27 @@ h1,h2,h3{letter-spacing:.02em}
 .st-head{font-family:var(--font)}
 
 /* 見出し：英字の小見出しはやめて、日本語の見出しだけ */
-.sec-ttl{font-family:var(--hand);font-weight:600;color:var(--ink);font-size:clamp(26px,6.4vw,38px);margin-bottom:.4em}
+.sec-ttl{font-family:var(--font);font-weight:700;color:var(--ink);font-size:clamp(22px,5.6vw,28px);margin-bottom:.6em;padding-left:12px;border-left:5px solid var(--green);line-height:1.35}
 .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:4px 24px}
 .side-note{margin:0 0 .9em;font-size:15px;color:var(--accent);line-height:1.6}
 .section{padding:56px 0}
 
-/* 院長から：手紙 */
+/* 院長ごあいさつ・経歴 */
 .about{background:var(--paper);border-bottom:1px solid var(--line)}
-.about-grid{display:grid;gap:22px}
-.about-side .sec-ttl{margin-bottom:.6em}
-.about-photo{max-width:200px;margin:0}
-.about-photo img{border-radius:0;aspect-ratio:1/1;object-fit:cover;object-position:50% 20%;border:5px solid #fff;outline:1px solid var(--line);box-shadow:none;transform:rotate(1.5deg);filter:saturate(.8)}
-.about-photo figcaption{position:static;transform:none;background:none;box-shadow:none;border-radius:0;padding:0;margin-top:10px;white-space:normal;font-size:13px;font-weight:700}
-.about-photo small{margin-left:0}
-.letter{font-family:var(--hand);font-size:17px;line-height:2.1em;max-width:34em;
-  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(2.1em - 1px),#e6dfd1 calc(2.1em - 1px),#e6dfd1 2.1em);
-  padding-top:.1em}
-.letter p{margin:0 0 2.1em;text-align:justify;text-justify:inter-character;letter-spacing:0}
-.letter .sign{text-align:right;margin:0;font-size:22px}
-.letter .sign small{display:block;font-size:13px;font-family:var(--font);color:var(--muted);line-height:2.1em}
-.staff{margin-top:48px;padding-top:26px;border-top:1px dashed var(--line)}
-.staff-ttl{font-family:var(--hand);font-weight:600;font-size:21px;color:var(--ink);margin-bottom:12px}
-.staff-list{list-style:none;padding:0;margin:0;display:grid;gap:0}
-.staff-list li{padding:14px 0;border-bottom:1px solid var(--line)}
-.staff-list li:last-child{border-bottom:0}
-.staff-list p{margin:0;font-size:15px;line-height:1.85;text-align:justify;text-justify:inter-character;letter-spacing:0}
-.staff-name{font-weight:700;margin-bottom:4px !important}
-.staff-name small{margin-left:10px;font-weight:500;color:var(--muted);font-size:12.5px}
+.about-grid{display:grid;gap:30px}
+.greeting{max-width:40em}
+.greeting p{margin:0 0 1.1em;text-align:justify;text-justify:inter-character;letter-spacing:0}
+.greeting .sign{text-align:right;font-weight:700;margin:0}
+.greeting .sign small{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.about-sub{font-family:var(--font);font-size:17px;color:var(--ink);margin:0 0 6px}
+.about-sub small{font-size:12.5px;font-weight:400;color:var(--muted);margin-left:4px}
+.career{width:100%;border-collapse:collapse;font-size:15px;border-top:1px solid var(--line)}
+.career th,.career td{text-align:left;vertical-align:top;padding:9px 0;border-bottom:1px solid var(--line);font-weight:400}
+.career th{width:5.2em;color:var(--green);font-weight:700;white-space:nowrap}
+.career td small{display:block;font-size:12px;color:var(--muted)}
+.about-photo{position:relative;margin:24px 0 0;max-width:none}
+.about-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:30% 50%;border-radius:0}
+.about-photo figcaption{position:static;transform:none;background:none;box-shadow:none;border-radius:0;padding:0;white-space:normal;font-size:13px;color:var(--muted);margin-top:6px;font-weight:400}
 
 /* 診療案内：カードの並びをやめて、罫線で区切ったリスト */
 .services{background:var(--bg)}
@@ -490,9 +488,9 @@ h1,h2,h3{letter-spacing:.02em}
 .hours{background:var(--bg)}
 .table-scroll{border-radius:4px}
 .hours-table thead th{background:var(--ink)}
-.hours-photo{max-width:440px;justify-self:center}
-.hours-photo img{border-radius:0;box-shadow:none;border:5px solid #fff;outline:1px solid var(--line);transform:rotate(-.8deg);filter:saturate(.82)}
-.hours-photo figcaption{font-size:15px;color:var(--ink);margin-top:12px}
+.hours-photo{max-width:440px;justify-self:center;position:relative;margin:0}
+.hours-photo img{border-radius:0;box-shadow:none;width:100%}
+.hours-photo figcaption{font-size:14px;color:var(--ink);margin-top:8px}
 .hours-photo figcaption .img-note{font-family:var(--font);font-weight:400}
 
 /* 季節：タブは文字だけ、飾りの円はなし */
@@ -524,6 +522,9 @@ h1,h2,h3{letter-spacing:.02em}
 
 /* アクセス・FAQ・フッター */
 .access{background:var(--paper)}
+.access .info{gap:0;border-top:1px solid var(--line);grid-template-columns:5.4em 1fr}
+.access .info dt,.access .info dd{padding:10px 0;border-bottom:1px solid var(--line)}
+.access .info dt{padding-top:12px}
 .map svg{border-radius:4px}
 .faq details{border:0;border-bottom:1px solid var(--line);background:none;margin-top:0}
 .faq details:first-of-type{border-top:2px solid var(--ink)}
@@ -545,19 +546,16 @@ h1,h2,h3{letter-spacing:.02em}
   .tips{grid-template-columns:1fr}
   .tips li{padding:14px 0 14px 44px}
   .tips li::before{top:10px;left:4px}
-  .staff-list{grid-template-columns:repeat(3,1fr);column-gap:32px}
-  .staff-list li{border-bottom:0;padding:4px 0}
 }
 @media (min-width:820px){
-  .hero{display:block;min-height:0;padding:56px 0 64px}
-  .hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;gap:48px}
-  .hero-img::after{content:none}
+  .hero{display:block;min-height:0;padding:0 0 48px}
+  .hero-photo img{aspect-ratio:auto;height:clamp(320px,36vw,480px);object-position:50% 62%}
+  .hero-grid{grid-template-columns:1fr minmax(320px,380px);align-items:start;gap:48px;padding-top:34px}
   .hero-copy{padding:0;max-width:none}
-  .hero-photo{justify-self:end}
+  .hi-tel{display:block}
   .status-wrap{background:var(--bg)}
   .status-grid{margin-top:0}
-  .about-grid{grid-template-columns:240px 1fr;align-items:start;gap:56px}
-  .about-photo{max-width:220px}
+  .about-grid{grid-template-columns:1fr 340px;align-items:start;gap:56px}
   .svc-list .svc{display:grid;grid-template-columns:13em 1fr;column-gap:28px}
   .svc-list .svc h3{margin:0}
   .section{padding:80px 0}
@@ -568,7 +566,6 @@ h1,h2,h3{letter-spacing:.02em}
 }
 @media (min-width:1181px){ .hero-status{display:none} }
 .svc-body{max-width:46em}
-.slope .slope-dog path{stroke-width:1.5}
 .c-column .cat{background:#efe8dc;color:#6b5434}
 @media (min-width:640px){
   .news-card > a{grid-template-columns:120px 1fr;grid-template-rows:auto auto;column-gap:24px}
@@ -577,4 +574,23 @@ h1,h2,h3{letter-spacing:.02em}
   .news-card h3{grid-column:2;grid-row:1;margin:0 0 2px}
   .news-card .nc-ex{grid-column:2;grid-row:2;margin:0}
   .nc-fees{margin:-8px 0 12px 144px}
+}
+
+/* ヘッダー：実在の病院サイトと同じく、右上に電話番号と受付時間（PCのみ）。メニューは2段目に */
+.hdr-contact{display:none}
+@media (min-width:1040px){
+  html{scroll-padding-top:118px}
+  .hdr-inner{flex-wrap:wrap;column-gap:16px;row-gap:0;padding-top:8px}
+  .hdr-contact{display:flex;flex-direction:column;align-items:flex-end;margin:0;line-height:1.3}
+  .hdr-contact a{font-size:24px;font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:.04em}
+  .hdr-contact a small{font-size:12px;font-weight:700;color:var(--accent);margin-right:6px;letter-spacing:.06em;vertical-align:3px}
+  .hdr-contact span{font-size:12px;color:var(--muted);white-space:nowrap}
+  .site-nav{order:5;flex-basis:100%;justify-content:flex-start;border-top:1px solid var(--line);margin-top:8px;padding:2px 0}
+  .site-nav .nav-tel{display:none}
+  .site-nav a,.site-nav a:first-child{padding:9px 14px 9px 0;margin-right:14px;font-size:14px}
+}
+@media (min-width:1040px){
+  .logo img{width:44px;height:44px}
+  .logo b{font-size:18px}
+  .logo small{font-size:10.5px}
 }
