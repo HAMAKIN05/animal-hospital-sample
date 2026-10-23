@@ -14,8 +14,8 @@
   function md(d) { return (d.getMonth() + 1) + "/" + d.getDate() + "（" + WD[d.getDay()] + "）"; }
   function toMin(hhmm) { var p = hhmm.split(":"); return +p[0] * 60 + +p[1]; }
   function fmtT(hhmm) { return hhmm.replace(/^0/, ""); }
-  function fmtHours(h) { return h.map(function (r) { return fmtT(r[0]) + "–" + fmtT(r[1]); }).join(" / "); }
-  function hoursHtml(h) { return h.map(function (r) { return '<span class="nw">' + fmtT(r[0]) + "–" + fmtT(r[1]) + "</span>"; }).join(" / "); }
+  function fmtHours(h) { return h.map(function (r) { return fmtT(r[0]) + "〜" + fmtT(r[1]); }).join("／"); }
+  function hoursHtml(h) { return h.map(function (r) { return '<span class="nw">' + fmtT(r[0]) + "〜" + fmtT(r[1]) + "</span>"; }).join("／"); }
   function addDays(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); return x; }
   function parseYmd(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
   function esc(s) {
@@ -83,8 +83,8 @@
 
   function nextLabel(n) {
     if (!n) return "";
-    var when = n.offset === 0 ? "本日" : n.offset === 1 ? "明日 " + md(n.date) : md(n.date);
-    return when + " " + fmtT(n.start) + "〜";
+    var when = n.offset === 0 ? "本日" : n.offset === 1 ? "明日" + md(n.date) : md(n.date);
+    return when + fmtT(n.start) + "〜";
   }
 
   /* ---------- 診療内容・費用・リスクの目安（fees.js ＋ fees-render.js） ---------- */
@@ -111,20 +111,20 @@
     var badge = {
       open: ["ただいま診療中", "is-open"],
       lastcall: ["まもなく受付終了", "is-warn"],
-      before: ["本日 " + fmtT(st.at || "") + " から診療", "is-soon"],
+      before: ["本日" + fmtT(st.at || "") + "から診療", "is-soon"],
       "break": ["お昼休み中", "is-break"],
       done: ["本日の診療は終了", "is-closed"],
       closed: ["本日は休診日です", "is-closed"]
     }[st.state];
 
     var headline = info.closed
-      ? "本日 " + esc(md(NOW)) + "は休診日です"
-      : "本日 " + esc(md(NOW)) + "は " + hoursHtml(info.hours) + " 診療";
+      ? "本日" + esc(md(NOW)) + "は休診日です"
+      : "本日" + esc(md(NOW)) + "の診療：" + hoursHtml(info.hours);
 
     var sub = "";
-    if (st.state === "open") sub = fmtT(st.until) + " まで診療しています（受付は終了" + S.receptionCloseMinutes + "分前まで）。";
+    if (st.state === "open") { var lc = toMin(st.until) - S.receptionCloseMinutes; sub = fmtT(st.until) + "まで診療中です。受付は" + Math.floor(lc / 60) + ":" + pad(lc % 60) + "まで。"; }
     if (st.state === "lastcall") sub = "受付はまもなく終了します。お急ぎの方はお電話ください。";
-    if (st.state === "break") sub = "午後の診療は " + fmtT(st.at) + " からです（この時間は受付をお休みしています）。";
+    if (st.state === "break") sub = "午後の診療は" + fmtT(st.at) + "からです（この時間は受付をお休みしています）。";
     if (st.state === "before") sub = "診療開始までもう少しお待ちください。";
     if (st.state === "done") sub = "本日もありがとうございました。";
     if (st.state === "closed") sub = info.reason + "。";
@@ -145,7 +145,7 @@
     document.querySelectorAll(".js-status-pill").forEach(function (e) {
       e.classList.remove("is-open", "is-warn", "is-soon", "is-break", "is-closed");
       e.classList.add(badge[1]);
-      e.innerHTML = "<i></i>" + esc(badge[0]) + "<span>" + (info.closed ? "次の診療 " + esc(nextLabel(n)) : esc(fmtHours(info.hours))) + "</span>";
+      e.innerHTML = "<i></i>" + esc(badge[0]) + "<span>" + (info.closed ? "次の診療：" + esc(nextLabel(n)) : esc(fmtHours(info.hours))) + "</span>";
     });
   }
 
@@ -157,9 +157,9 @@
       if (!info.closed || info.kind === "regular") continue;
       if (info.kind === "yearend") {
         if (seenYearEnd) continue; seenYearEnd = true;
-        list.push('<span class="nw">' + esc(md(d)) + "〜</span> " + esc(info.reason));
+        list.push('<span class="nw">' + esc(md(d)) + "〜</span>　" + esc(info.reason));
       } else {
-        list.push('<span class="nw">' + esc(md(d)) + "</span> " + esc(info.reason));
+        list.push('<span class="nw">' + esc(md(d)) + "</span>　" + esc(info.reason));
       }
     }
     if (!list.length) return "";
@@ -214,7 +214,7 @@
     var col = info.kind === "holiday" ? "hol" : String(NOW.getDay());
     document.querySelectorAll('[data-col="' + col + '"]').forEach(function (c) { c.classList.add("is-today"); });
     var cap = document.getElementById("hours-today");
-    if (cap) cap.innerHTML = "本日 " + esc(md(NOW)) + "：" + (info.closed ? "休診（" + esc(info.reason) + "）" : hoursHtml(info.hours));
+    if (cap) cap.innerHTML = "本日" + esc(md(NOW)) + "：" + (info.closed ? "休診（" + esc(info.reason) + "）" : hoursHtml(info.hours));
   }
 
   /* ---------- 季節の健康ガイド ---------- */
