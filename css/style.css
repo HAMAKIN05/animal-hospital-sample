@@ -1,11 +1,12 @@
 /* ほしぞら坂どうぶつ病院（SAMPLE） */
 :root{
-  --bg:#fbf7f0; --paper:#fffdf9; --ink:#2c3a31; --muted:#6c7a70; --line:#e7dfd2;
-  --green:#3f6b52; --green-d:#2c4d3b; --sage:#8fb89a; --sage-l:#e6efe3;
-  --accent:#e08a5b; --accent-l:#fbe9dd; --sun:#f3c86b; --warn:#d9822b; --red:#c0544a;
-  --r:18px; --shadow:0 10px 30px -12px rgba(44,58,49,.22);
+  --bg:#fbfaf6; --paper:#ffffff; --band:#f2eee5; --ink:#23302a; --muted:#5f6b63; --line:#dcd5c7;
+  --green:#2f5a46; --green-d:#22402f; --sage:#7fa58b; --sage-l:#e9efe6;
+  --accent:#c8553d; --accent-l:#f7e4dc; --sun:#f0c45c; --warn:#c0711f; --red:#b8463a;
+  --r:6px; --shadow:none;
   --font:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","BIZ UDPGothic","Yu Gothic",Meiryo,sans-serif;
-  --round:"Hiragino Maru Gothic ProN","Zen Maru Gothic","BIZ UDPGothic",var(--font);
+  --round:var(--font);
+  --hand:"Klee One","Hiragino Mincho ProN","Yu Mincho",serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
@@ -392,3 +393,188 @@ th,td,button,.btn{overflow-wrap:break-word}
 .news-list > li{min-width:0}
 .fee-links a{flex-shrink:0;max-width:100%}
 .memo-ttl{min-width:0}
+
+/* =====================================================================
+   人の手で作った感じに（2026-10）
+   - 角丸は小さく、影・グラデーション・装飾の円は使わない
+   - 主役は「電話」と「本日の診療状況」だけ。ほかは罫線と余白で整理
+   - 手書き風の書体（Klee One）は院長の手紙・ひとこと・写真の説明だけに使う
+   ===================================================================== */
+body{background:var(--bg)}
+h1,h2,h3{letter-spacing:.02em}
+.hand{font-family:var(--hand);font-weight:600}
+.btn{border-radius:6px;box-shadow:none;padding:12px 22px}
+.btn:hover{transform:none;filter:brightness(1.06)}
+.btn-primary{box-shadow:none}
+.btn-ghost{background:transparent}
+.site-nav .nav-tel{border-radius:6px}
+.menu-btn{border-radius:6px}
+.site-header{background:rgba(251,250,246,.96)}
+
+/* hero：文字が主役。写真は小さく、説明つき */
+.hero{background:var(--bg);padding:22px 0 34px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;gap:26px}
+.hero-copy{position:static;margin:0;padding:0;background:none;border-radius:0;max-width:none}
+.hero-status{position:static;display:inline-flex;margin:0 0 14px;box-shadow:none;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.hero h1{color:var(--ink);font-family:var(--hand);font-weight:600;line-height:1.38;margin-bottom:.1em;font-size:clamp(30px,8.4vw,56px)}
+.slope{display:block;width:min(100%,420px);height:auto;margin:2px 0 14px;overflow:visible}
+.slope path{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.slope .slope-house path,.slope .slope-dog path{stroke:var(--ink);stroke-width:1.8}
+.hero-lead{color:var(--ink);font-size:16px;line-height:1.9;max-width:26em}
+.hero-season{background:none;border:0;border-radius:0;padding:0;color:var(--ink);font-size:14px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+.hero-season b{background:none;color:var(--accent);padding:0;font-size:13px;margin-right:6px;border-radius:0;font-weight:800}
+.hero-cta{margin-top:4px}
+.hero-note{margin:14px 0 0;font-size:15px;color:var(--muted)}
+.hero-photo{margin:0;position:relative;max-width:520px;justify-self:center;width:100%}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:62% 50%;border:6px solid #fff;outline:1px solid var(--line);transform:rotate(-1.2deg);filter:saturate(.82)}
+.hero-photo::before{content:"";position:absolute;z-index:2;top:-9px;left:42%;width:78px;height:20px;background:rgba(240,196,92,.55);transform:rotate(-4deg)}
+.hero-photo .img-tag{top:14px;right:14px;bottom:auto;border-radius:3px}
+.hero-photo figcaption{font-size:14px;color:var(--muted);margin-top:10px;text-align:right}
+.hero-img + .img-tag{bottom:auto}
+
+/* 診療状況：掲示板のように */
+.status-wrap{background:var(--bg);padding:28px 0 44px}
+.card{border-radius:var(--r);box-shadow:none;border:1px solid var(--line)}
+.status-card{border-top:3px solid var(--green)}
+.st-badge,.st-next,.st-next span,.reminder,.rm-label,.cal td,.cal-nav,.lg,.hours-today,.cat,.new,.fee-sample,.fee-contact,.fees-contact-top .fee-contact,.legal-note,.svc-legal,.faq details,.season-tabs button,.news-filter button,.memo-try a,.fee-links a,.foot-disclaimer,.news-item,.date-sim,code{border-radius:4px}
+.st-head{font-family:var(--font)}
+
+/* 見出し：英字の小見出しはやめて、日本語の見出しだけ */
+.sec-ttl{font-family:var(--hand);font-weight:600;color:var(--ink);font-size:clamp(26px,6.4vw,38px);margin-bottom:.4em}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:4px 24px}
+.side-note{margin:0 0 .9em;font-size:15px;color:var(--accent);line-height:1.6}
+.section{padding:56px 0}
+
+/* 院長から：手紙 */
+.about{background:var(--paper);border-bottom:1px solid var(--line)}
+.about-grid{display:grid;gap:22px}
+.about-side .sec-ttl{margin-bottom:.6em}
+.about-photo{max-width:200px;margin:0}
+.about-photo img{border-radius:0;aspect-ratio:1/1;object-fit:cover;object-position:50% 20%;border:5px solid #fff;outline:1px solid var(--line);box-shadow:none;transform:rotate(1.5deg);filter:saturate(.8)}
+.about-photo figcaption{position:static;transform:none;background:none;box-shadow:none;border-radius:0;padding:0;margin-top:10px;white-space:normal;font-size:13px;font-weight:700}
+.about-photo small{margin-left:0}
+.letter{font-family:var(--hand);font-size:17px;line-height:2.1em;max-width:34em;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(2.1em - 1px),#e6dfd1 calc(2.1em - 1px),#e6dfd1 2.1em);
+  padding-top:.1em}
+.letter p{margin:0 0 2.1em;text-align:justify;text-justify:inter-character;letter-spacing:0}
+.letter .sign{text-align:right;margin:0;font-size:22px}
+.letter .sign small{display:block;font-size:13px;font-family:var(--font);color:var(--muted);line-height:2.1em}
+.staff{margin-top:48px;padding-top:26px;border-top:1px dashed var(--line)}
+.staff-ttl{font-family:var(--hand);font-weight:600;font-size:21px;color:var(--ink);margin-bottom:12px}
+.staff-list{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.staff-list li{padding:14px 0;border-bottom:1px solid var(--line)}
+.staff-list li:last-child{border-bottom:0}
+.staff-list p{margin:0;font-size:15px;line-height:1.85;text-align:justify;text-justify:inter-character;letter-spacing:0}
+.staff-name{font-weight:700;margin-bottom:4px !important}
+.staff-name small{margin-left:10px;font-weight:500;color:var(--muted);font-size:12.5px}
+
+/* 診療案内：カードの並びをやめて、罫線で区切ったリスト */
+.services{background:var(--bg)}
+.svc-list{list-style:none;padding:0;margin:24px 0 0;border-top:2px solid var(--ink)}
+.svc-list .svc{display:block;background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:18px 0}
+.svc-list .svc h3{font-size:18px;color:var(--ink);margin:0 0 6px}
+.svc-body p{font-size:15px;color:var(--ink);margin:0;line-height:1.85}
+.svc-body .svc-more,.svc-body .svc-links,.svc-body .svc-legal{grid-column:auto}
+.svc-body .svc-more{margin-top:8px;padding-top:0}
+.svc-body .svc-links{margin-top:8px !important;padding-top:0}
+.svc-legal{background:var(--band);color:var(--ink)}
+
+/* 費用 */
+.fees{background:var(--paper)}
+.fee{border-radius:var(--r)}
+.fee h3{font-family:var(--font)}
+.fee-dl dt::before{border-radius:0;width:8px;height:2px}
+.legal-note{border-left:0;border:1px solid #c9d6e2}
+
+/* 診療時間 */
+.hours{background:var(--bg)}
+.table-scroll{border-radius:4px}
+.hours-table thead th{background:var(--ink)}
+.hours-photo{max-width:440px;justify-self:center}
+.hours-photo img{border-radius:0;box-shadow:none;border:5px solid #fff;outline:1px solid var(--line);transform:rotate(-.8deg);filter:saturate(.82)}
+.hours-photo figcaption{font-size:15px;color:var(--ink);margin-top:12px}
+.hours-photo figcaption .img-note{font-family:var(--font);font-weight:400}
+
+/* 季節：タブは文字だけ、飾りの円はなし */
+.season{background:var(--paper);border-block:1px solid var(--line)}
+.season-tabs{gap:0;border-bottom:1px solid var(--line);padding:0}
+.season-tabs button{background:none;border:0;border-bottom:3px solid transparent;border-radius:0;padding:8px 14px 6px}
+.season-tabs button[aria-selected="true"]{background:none;color:var(--ink);border-bottom-color:var(--accent)}
+.season-tabs button[aria-selected="true"] small{color:var(--muted)}
+.season-tabs em{position:static;display:inline-block;margin-left:4px;border-radius:3px;vertical-align:2px}
+.season-body{background:none;border:0;box-shadow:none;border-radius:0;padding:22px 0 0;overflow:visible}
+.season-body::after{content:none}
+.season-kicker{color:var(--accent);font-family:var(--hand)}
+.season-body h3{font-family:var(--hand);font-weight:600;color:var(--ink)}
+.tips{gap:0;border-top:1px solid var(--line)}
+.tips li{background:none;border-radius:0;border-bottom:1px solid var(--line);padding:14px 0 14px 40px}
+.tips li::before{background:none;color:var(--accent);font-family:var(--hand);font-size:22px;width:auto;height:auto;left:4px;top:10px;border-radius:0}
+.tips strong{color:var(--ink)}
+.tips span{color:var(--ink)}
+
+/* お知らせ：日付・種類・タイトルの一覧 */
+.news{background:var(--bg)}
+.news-list{gap:0;border-top:2px solid var(--ink)}
+.news-card > a{background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:16px 0}
+.news-card > a:hover{transform:none;box-shadow:none}
+.news-card > a:hover h3{text-decoration:underline}
+.news-card h3{color:var(--ink)}
+.nc-ex{color:var(--muted)}
+.nc-fees{margin:6px 0 14px}
+
+/* アクセス・FAQ・フッター */
+.access{background:var(--paper)}
+.map svg{border-radius:4px}
+.faq details{border:0;border-bottom:1px solid var(--line);background:none;margin-top:0}
+.faq details:first-of-type{border-top:2px solid var(--ink)}
+.faq summary{padding:16px 40px 16px 34px}
+.faq summary::before{content:"Q.";background:none;color:var(--accent);font-family:var(--hand);font-size:18px;width:auto;height:auto;left:2px;top:14px;border-radius:0}
+.faq details p{padding:0 8px 18px 34px;color:var(--ink)}
+.faq details .faq-contact{margin-left:34px}
+.memo{background:var(--band)}
+.site-footer{background:var(--ink)}
+
+@media (min-width:640px){
+  .news-list{grid-template-columns:1fr}
+  .news-card > a{display:grid;grid-template-columns:8.5em 1fr;column-gap:20px;align-items:baseline}
+  .news-card .nc-meta{grid-column:1;grid-row:2}
+  .news-card .nc-date{grid-column:1;grid-row:1;margin:0}
+  .news-card h3{grid-column:2;grid-row:1 / span 2;margin:0 0 4px}
+  .news-card .nc-ex{grid-column:2;grid-row:3;margin:0}
+  .nc-fees{margin-left:calc(8.5em + 20px)}
+  .tips{grid-template-columns:1fr}
+  .tips li{padding:14px 0 14px 44px}
+  .tips li::before{top:10px;left:4px}
+  .staff-list{grid-template-columns:repeat(3,1fr);column-gap:32px}
+  .staff-list li{border-bottom:0;padding:4px 0}
+}
+@media (min-width:820px){
+  .hero{display:block;min-height:0;padding:56px 0 64px}
+  .hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;gap:48px}
+  .hero-img::after{content:none}
+  .hero-copy{padding:0;max-width:none}
+  .hero-photo{justify-self:end}
+  .status-wrap{background:var(--bg)}
+  .status-grid{margin-top:0}
+  .about-grid{grid-template-columns:240px 1fr;align-items:start;gap:56px}
+  .about-photo{max-width:220px}
+  .svc-list .svc{display:grid;grid-template-columns:13em 1fr;column-gap:28px}
+  .svc-list .svc h3{margin:0}
+  .section{padding:80px 0}
+}
+@media (min-width:1040px){
+  .svc-list{display:block}
+  .svc-list .svc{display:grid}
+}
+@media (min-width:1181px){ .hero-status{display:none} }
+.svc-body{max-width:46em}
+.slope .slope-dog path{stroke-width:1.5}
+.c-column .cat{background:#efe8dc;color:#6b5434}
+@media (min-width:640px){
+  .news-card > a{grid-template-columns:120px 1fr;grid-template-rows:auto auto;column-gap:24px}
+  .news-card .nc-date{grid-column:1;grid-row:1}
+  .news-card .nc-meta{grid-column:1;grid-row:2;align-self:start}
+  .news-card h3{grid-column:2;grid-row:1;margin:0 0 2px}
+  .news-card .nc-ex{grid-column:2;grid-row:2;margin:0}
+  .nc-fees{margin:-8px 0 12px 144px}
+}

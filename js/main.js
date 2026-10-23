@@ -256,7 +256,7 @@
         legalNotes(feeIds([], c.reminder.text), c.reminder.text) + feeLinks(rIds) + "</div>";
     }
     var hs = document.getElementById("hero-season");
-    if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + ttl(c.title + "\u00a0→");
+    if (hs) hs.innerHTML = "<b>" + mon + "月のひとこと</b>" + ttl(c.title + "\u00a0→");
     /* ヒーローの季節の一言のすぐ横に「費用・リスクの目安」リンク */
     var hf = document.getElementById("hero-season-fee");
     if (hf) {
