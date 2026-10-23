@@ -25,6 +25,7 @@
     <nav id="site-nav" class="site-nav" aria-label="メインメニュー">
       <a href="#status">本日の診療</a>
       <a href="#services">診療案内</a>
+      <a href="#fees">費用の目安</a>
       <a href="#hours">診療時間</a>
       <a href="#season">季節の健康</a>
       <a href="#news">お知らせ</a>
@@ -40,13 +41,14 @@
   <section class="hero">
     <picture class="hero-img">
       <source media="(max-width: 820px)" srcset="img/hero-sm.webp">
-      <img src="img/hero.webp" alt="明るい診察室で、獣医師が柴犬をやさしく診察し、そばで三毛猫が見守っている様子（イメージ）" width="1280" height="720" fetchpriority="high">
+      <img src="img/hero.webp" alt="明るい診察室で、獣医師が柴犬を診察し、そばで三毛猫が見守っている様子（イメージ画像）" width="1280" height="720" fetchpriority="high">
     </picture>
+    <span class="img-tag">イメージ画像</span>
     <a class="hero-status js-status-pill" href="#status"><i></i>診療状況</a>
     <div class="hero-copy">
       <p class="hero-kicker">犬・猫・うさぎ・小動物の かかりつけ</p>
-      <h1>坂の途中の、<br>いつでも相談できる<br>動物病院。</h1>
-      <p class="hero-lead">小さな「いつもと違う」を、気軽に話せる場所でありたい。<br class="pc">予防から シニアケアまで、ご家族と一緒に考えます。</p>
+      <h1>坂の途中の、<br>ご家族と考える<br>動物病院。</h1>
+      <p class="hero-lead">小さな「いつもと違う」も、遠慮なくお話しください。<br class="pc">予防からシニア期のご相談まで、ご家族と一緒に考えます。</p>
       <a class="hero-season" id="hero-season" href="#season"></a>
       <div class="hero-cta">
         <a class="btn btn-primary" href="tel:000-0000-0000">電話で予約・相談<small>000-0000-0000</small></a>
@@ -61,6 +63,7 @@
       <div class="card status-card">
         <h2 id="status-ttl" class="mini-ttl">本日の診療状況</h2>
         <div id="today-status" aria-live="polite"><p class="st-head">診療時間をご確認ください</p></div>
+        <p class="st-op-note">※表示は通常の診療時間から自動で計算しています。臨時休診は<a href="#news">お知らせ</a>でご確認ください。</p>
         <div id="reminder" class="reminder"></div>
       </div>
       <div class="card cal-card">
@@ -75,14 +78,14 @@
     <div class="wrap about-grid">
       <figure class="about-photo">
         <img src="img/director.webp" alt="うさぎを抱いてほほえむ院長（イメージ画像・架空の人物）" width="600" height="800" loading="lazy">
-        <figcaption>院長　星野 そら（架空）<small>獣医師</small></figcaption>
+        <figcaption>院長　星野 そら（架空）<small>獣医師</small><small class="img-note">※写真はイメージ画像です（実在の人物ではありません）</small></figcaption>
       </figure>
       <div class="about-text">
         <p class="eyebrow">ABOUT</p>
         <h2 class="sec-ttl">院長あいさつ</h2>
-        <p class="about-lead">「ちょっと気になる」で来てください。<br>それが、いちばん早い治療になります。</p>
+        <p class="about-lead">「ちょっと気になる」で来てください。<br>早めのご相談が、早めの対応につながります。</p>
         <p>ほしぞら坂どうぶつ病院は、坂の途中の小さな動物病院です。動物たちは言葉で不調を伝えられません。だからこそ、毎日一緒にいるご家族の「なんとなく元気がない」という感覚を大切にしています。</p>
-        <p>検査や治療は、必要な理由と選択肢をわかりやすくご説明し、ご家族が納得して選べるように。犬・猫はもちろん、うさぎやハムスターなどの小さな家族も安心して過ごせるよう、待合スペースを分けてお迎えしています。</p>
+        <p>検査や治療は、必要な理由と選択肢をわかりやすくご説明し、ご家族が納得して選べるように。犬・猫はもちろん、うさぎやハムスターなどの小さな家族も落ち着いて過ごせるよう、待合スペースを分けてお迎えしています。</p>
         <ul class="about-points">
           <li><b>3</b>つの待合スペース<small>犬／猫／小動物</small></li>
           <li><b>15</b>分前まで受付<small>各診療枠の終了前</small></li>
@@ -97,17 +100,29 @@
     <div class="wrap">
       <p class="eyebrow">SERVICES</p>
       <h2 class="sec-ttl">診療案内</h2>
-      <p class="sec-lead">日々の予防から病気の治療、手術まで。専門的な治療が必要な場合は、連携する二次診療施設へご紹介します。</p>
+      <p class="sec-lead">日々の予防から病気の治療、手術まで。当院での対応が難しい場合は、連携する二次診療施設をご紹介します。各診療の内容・通院回数・主なリスク・費用は、下の<a href="#fees">「診療内容・費用・リスクの目安」</a>にまとめています。</p>
       <ul class="svc-grid">
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20c0-6 4-9 7-9l3 4h8l3-4c3 0 7 3 7 9v6c0 8-6 13-14 13S10 34 10 26z"/><circle cx="19" cy="24" r="1.6"/><circle cx="29" cy="24" r="1.6"/><path d="M22 30h4l-2 2z"/></svg><h3>犬の診療</h3><p>皮膚・耳・お腹の不調、関節のトラブル、シニア期の体調管理まで幅広く対応します。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M11 10l7 8h12l7-8v17c0 8-6 12-13 12S11 35 11 27z"/><circle cx="19" cy="25" r="1.6"/><circle cx="29" cy="25" r="1.6"/><path d="M22 30h4l-2 2zM6 28h8M6 32h8M34 28h8M34 32h8"/></svg><h3>猫の診療</h3><p>猫専用の待合スペースを用意。腎臓・泌尿器のケアや、通院が苦手な子への配慮も。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 20c-2-8-2-14 1-14s4 6 3 14M30 20c2-8 2-14-1-14s-4 6-3 14"/><ellipse cx="24" cy="30" rx="11" ry="10"/><circle cx="20" cy="29" r="1.4"/><circle cx="28" cy="29" r="1.4"/><path d="M23 34h2"/></svg><h3>うさぎ・小動物</h3><p>うさぎ、ハムスター、モルモット、フェレットなど。食欲不振や歯のトラブルはお早めに。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 8l10 10M35 13L17 31l-6 1 1-6 18-18M14 34l-6 6M21 20l4 4M25 16l4 4"/></svg><h3>予防接種</h3><p>混合ワクチン、狂犬病予防注射（登録手続き代行）、フィラリア・ノミダニ予防。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="9" width="24" height="31" rx="3"/><path d="M19 9v-2h10v2M17 19h14M17 25h14M17 31h8"/></svg><h3>健康診断・ドック</h3><p>血液検査・尿検査・レントゲン・超音波。7歳からはシニアドックがおすすめです。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 12c4-3 7 0 10 0s6-3 10 0 2 12 0 18-3 10-5 10-2-8-5-8-3 8-5 8-3-4-5-10-4-15 0-18z"/></svg><h3>歯科・デンタルケア</h3><p>歯石除去や抜歯、おうちでの歯みがき指導。お口のにおいが気になったらご相談を。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="14"/><path d="M24 16v16M16 24h16"/></svg><h3>手術・避妊去勢</h3><p>避妊・去勢手術、腫瘍の摘出など。事前検査と痛みのケアを丁寧に行います。</p></li>
-        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40s-14-8-14-19a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 11-14 19-14 19z"/></svg><h3>シニアケア</h3><p>関節の痛み、認知機能の変化、食事の工夫。年齢に合わせた暮らし方を一緒に考えます。</p></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 20c0-6 4-9 7-9l3 4h8l3-4c3 0 7 3 7 9v6c0 8-6 13-14 13S10 34 10 26z"/><circle cx="19" cy="24" r="1.6"/><circle cx="29" cy="24" r="1.6"/><path d="M22 30h4l-2 2z"/></svg><h3>犬の診療</h3><p>皮膚・耳・お腹の不調、関節のトラブル、シニア期の体調管理などのご相談をお受けしています。</p><a class="svc-more" href="#fee-consult">診察・検査の目安</a></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M11 10l7 8h12l7-8v17c0 8-6 12-13 12S11 35 11 27z"/><circle cx="19" cy="25" r="1.6"/><circle cx="29" cy="25" r="1.6"/><path d="M22 30h4l-2 2zM6 28h8M6 32h8M34 28h8M34 32h8"/></svg><h3>猫の診療</h3><p>猫専用の待合スペースを用意。腎臓・泌尿器のご相談や、通院が苦手な子への配慮も。</p><a class="svc-more" href="#fee-consult">診察・検査の目安</a></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 20c-2-8-2-14 1-14s4 6 3 14M30 20c2-8 2-14-1-14s-4 6-3 14"/><ellipse cx="24" cy="30" rx="11" ry="10"/><circle cx="20" cy="29" r="1.4"/><circle cx="28" cy="29" r="1.4"/><path d="M23 34h2"/></svg><h3>うさぎ・小動物</h3><p>うさぎ、ハムスター、モルモット、フェレットの診察を行っています。食欲不振や歯のトラブルはお早めに。ワクチン接種は犬・猫のみが対象です。</p><a class="svc-more" href="#fee-consult">診察の目安</a></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 8l10 10M35 13L17 31l-6 1 1-6 18-18M14 34l-6 6M21 20l4 4M25 16l4 4"/></svg><h3>予防接種・予防</h3><p>犬・猫の混合ワクチン、犬の狂犬病予防注射、フィラリア・ノミ・マダニの予防。</p><p class="svc-legal">※犬の飼い主は、飼い始めた日（生後90日以内の子犬は生後90日を過ぎた日）から30日以内に市区町村で犬の登録（生涯1回）をして鑑札を受け、生後91日以上の犬に毎年1回（原則4〜6月）狂犬病予防注射を受けさせて注射済票の交付を受けることが、狂犬病予防法で義務付けられています。鑑札と注射済票は犬に着けておく必要があります。</p><p class="svc-links"><a href="#fee-vaccine">混合ワクチン</a><a href="#fee-rabies">狂犬病予防注射</a><a href="#fee-heartworm">フィラリア</a><a href="#fee-flea">ノミ・マダニ</a><span>の目安</span></p></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="9" width="24" height="31" rx="3"/><path d="M19 9v-2h10v2M17 19h14M17 25h14M17 31h8"/></svg><h3>健康診断・ドック</h3><p>身体検査・血液検査・尿検査・便検査の基本コースと、7歳以上が目安のシニアドック（レントゲン・超音波を追加）。</p><a class="svc-more" href="#fee-checkup">健康診断の目安</a></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 12c4-3 7 0 10 0s6-3 10 0 2 12 0 18-3 10-5 10-2-8-5-8-3 8-5 8-3-4-5-10-4-15 0-18z"/></svg><h3>歯科・デンタルケア</h3><p>全身麻酔下での歯石除去・抜歯と、おうちでの歯みがき指導。お口のにおいが気になったらご相談を。</p><a class="svc-more" href="#fee-dental">歯科処置の目安</a></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="14"/><path d="M24 16v16M16 24h16"/></svg><h3>手術・避妊去勢</h3><p>犬・猫の避妊・去勢手術、皮膚・皮下のしこり（腫瘍）の摘出など。術前検査を行い、麻酔のリスクや術後の痛み止めについて事前にご説明します。</p><p class="svc-links"><a href="#fee-spay">避妊・去勢</a><a href="#fee-tumor">しこりの摘出</a><span>の目安</span></p></li>
+        <li class="svc"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40s-14-8-14-19a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 11-14 19-14 19z"/></svg><h3>シニアケア</h3><p>関節の痛み、認知機能の変化、食事の工夫。年齢に合わせた暮らし方のご相談をお受けしています。</p><a class="svc-more" href="#fee-checkup">シニアドックの目安</a></li>
       </ul>
+    </div>
+  </section>
+
+  <!-- ===== 診療内容・費用・リスクの目安 ===== -->
+  <section id="fees" class="section fees">
+    <div class="wrap">
+      <p class="eyebrow">FEES &amp; RISKS</p>
+      <h2 class="sec-ttl">診療内容・費用・リスクの目安</h2>
+      <p class="sec-lead">主な診療について、通常必要とされる内容と通院回数、主なリスク・副作用、費用の目安をまとめました。動物の状態によって内容や費用は変わるため、実施前に必ずご説明し、同意をいただいてから行います。</p>
+      <p class="fee-sample"><b>※金額は架空のサンプルです。</b>表示はすべて税込（消費税10％）です。</p>
+      <div id="fees-contact" class="fees-contact-top"></div>
+      <div id="fees-list" class="fees-list"><p>このページでは JavaScript で目安の一覧を表示しています。表示されない場合は、お電話（000-0000-0000）でお問い合わせください。</p></div>
     </div>
   </section>
 
@@ -130,14 +145,14 @@
         </div>
         <ul class="notes">
           <li>休診日：木曜・日曜午後・祝日・年末年始（12/29〜1/3）</li>
-          <li>12:00〜16:00 は手術・往診の時間です。</li>
+          <li>12:00〜16:00 は受付をお休みしています（往診などを行う時間です）。</li>
           <li>受付は各診療時間の終了15分前までです。</li>
-          <li>急患の方は、来院前にお電話ください。</li>
+          <li>急患の方は、来院前にお電話ください。診療時間外は<a href="#faq-afterhours">夜間の連絡先</a>へ。</li>
         </ul>
       </div>
       <figure class="hours-photo">
         <img src="img/interior.webp" alt="木のベンチと植物のある、明るい待合室（イメージ）" width="900" height="675" loading="lazy">
-        <figcaption>猫・小動物の子は、奥の静かなスペースでお待ちいただけます。</figcaption>
+        <figcaption>猫・小動物の子は、奥の静かなスペースでお待ちいただけます。（写真はイメージ画像です）</figcaption>
       </figure>
     </div>
   </section>
@@ -164,7 +179,7 @@
         <a class="more" href="news.html">すべての記事を見る →</a>
       </div>
       <ul id="news-list" class="news-list"></ul>
-      <p class="sample-note">※掲載記事はすべてサンプルです。</p>
+      <p class="sample-note">※掲載記事はすべてサンプルです。記事で触れている診療の内容・費用・リスクは、<a href="#fees">「診療内容・費用・リスクの目安」</a>をご覧ください。</p>
     </div>
   </section>
 
@@ -209,12 +224,12 @@
     <div class="wrap narrow">
       <p class="eyebrow">FAQ</p>
       <h2 class="sec-ttl">よくある質問</h2>
-      <details><summary>予約は必要ですか？</summary><p>予約なしでも受診いただけます。ワクチン・健康診断・手術のご相談は、お電話でご予約いただくと待ち時間が短くなります。</p></details>
+      <details><summary>予約は必要ですか？</summary><p>予約なしでも受診いただけます。ワクチン・健康診断・手術のご相談は、お電話でご予約いただくと待ち時間が短くなります。内容・費用・主なリスクは<a href="#fees">「診療内容・費用・リスクの目安」</a>をご覧ください。</p></details>
       <details><summary>初めて受診するとき、何を持っていけばいいですか？</summary><p>ワクチン証明書や、これまでの検査結果・お薬手帳があればお持ちください。うんちやおしっこの様子が気になる場合は、写真や採取したものも診察の参考になります。</p></details>
       <details><summary>猫や小動物が待合室で怖がらないか心配です。</summary><p>犬・猫・小動物で待合スペースを分けています。キャリーにかけるタオルの貸し出しや、車内でお待ちいただくこともできますので受付でお声がけください。</p></details>
-      <details><summary>どんな動物を診てもらえますか？</summary><p>犬・猫・うさぎ・ハムスター・モルモット・フェレットを診療しています。鳥類・爬虫類は対応できる施設をご紹介します。</p></details>
+      <details><summary>どんな動物を診てもらえますか？</summary><p>犬・猫・うさぎ・ハムスター・モルモット・フェレットを診療しています。ワクチン接種は犬・猫のみが対象です。鳥類・爬虫類は対応できる施設をご紹介します。</p></details>
       <details><summary>支払い方法は？ ペット保険は使えますか？</summary><p>現金・各種クレジットカード・電子マネーがご利用いただけます。窓口精算に対応した保険もありますので、受付で保険証をご提示ください。（サンプル情報）</p></details>
-      <details><summary>診療時間外に具合が悪くなったら？</summary><p>まずはお電話ください。対応が難しい場合は、提携する夜間救急病院をご案内します。</p></details>
+      <details id="faq-afterhours"><summary>診療時間外に具合が悪くなったら？</summary><p>当院の診療時間外（夜間・木曜・日曜午後・祝日・年末年始）は、当院の電話はつながりません。下記の夜間救急動物病院へ直接お電話ください。<br><b>そらいろ夜間救急動物病院</b>（架空・サンプル）　TEL <a href="tel:000-0000-0001">000-0000-0001</a>（当院の診療時間外に対応）<br>受診の際は、当院で受けた処置やお薬をお伝えください。</p></details>
     </div>
   </section>
 
@@ -227,8 +242,9 @@
         <li><b>本日の診療状況・次の診療日</b>：閲覧した日時と曜日別の診療時間・祝日表から自動計算。「ただいま診療中」「お昼休み中」「本日は休診日です」などを表示し、近日の祝日休診も自動で予告します。</li>
         <li><b>今月の休診日カレンダー</b>：木曜・日曜午後・祝日・年末年始のルールから毎月自動生成。祝日や臨時休診は <code>js/schedule.js</code> の一覧に1行足すだけです。</li>
         <li><b>季節の健康ガイド＆リマインダー</b>：月に合わせて内容（フィラリア・熱中症・健康診断・誤食など）と、ワクチン／健診の呼びかけが自動で切り替わり、ヒーローの一言にも反映されます。</li>
-        <li><b>お知らせは <code>news.js</code> 1ファイル</b>：記事を追加するだけで日付順に並び、トップには最新3件、30日以内だけ「NEW」。未来の日付は予約投稿になります。季節を問わない「コラム」を混ぜ、日付は控えめに表示して“更新が止まった感”を出しません。</li>
-        <li><b>「最新」「◯年」などの固定文言を使わない</b>：コピーライトの年も自動更新。古さを感じさせる要素をページ内に残しません。</li>
+        <li><b>お知らせは <code>news.js</code> 1ファイル</b>：記事を追加するだけで日付順に並び、トップには新しい3件、30日以内だけ「NEW」。未来の日付は予約投稿になります。季節を問わない「コラム」を混ぜ、日付は控えめに表示して“更新が止まった感”を出しません。</li>
+        <li><b>「◯年」などの固定文言を使わない</b>：コピーライトの年も自動更新。古さを感じさせる要素をページ内に残しません。</li>
+        <li><b>獣医療広告ガイドラインに準拠</b>：獣医療法第17条・施行規則第24条・獣医療広告ガイドライン（令和5年11月13日、令和6年4月1日施行）とQ&amp;Aに沿い、検索広告やSNSから来たページ＝「広告」とみなす厳しい基準で作成。診療内容には「内容・通院回数／主なリスク・副作用／費用（税込・範囲）／問合せ先（時間外を含む）」を必ず併記（<code>js/fees.js</code> から自動表示）。狂犬病予防注射には犬の登録・鑑札・注射済票の説明、マイクロチップには登録の説明を自動で付けます。比較・誇大・最上級・体験談・ビフォーアフター・割引・商品名は使いません（<code>news.js</code> 冒頭に投稿チェックリスト）。</li>
       </ul>
       <p class="memo-try">表示の確認（日時を仮に変えて見る）：
         <a href="?date=2026-10-23T10:30#status">診療中</a>
@@ -249,7 +265,7 @@
       <p>〒000-0000 架空県そらいろ市ほしぞら坂 1-2-3<br>TEL 000-0000-0000</p>
     </div>
     <nav class="foot-nav" aria-label="フッターメニュー">
-      <a href="#services">診療案内</a><a href="#hours">診療時間</a><a href="news.html">お知らせ</a><a href="#access">アクセス</a><a href="#memo">制作メモ</a>
+      <a href="#services">診療案内</a><a href="#fees">費用の目安</a><a href="#hours">診療時間</a><a href="news.html">お知らせ</a><a href="#access">アクセス</a><a href="#memo">制作メモ</a>
     </nav>
   </div>
   <p class="foot-disclaimer"><strong>SAMPLE</strong>｜これは架空の動物病院のサンプルサイトです。実在の病院・人物・住所・電話番号とは関係ありません。掲載画像はイメージです。</p>
@@ -258,6 +274,7 @@
 
 <script src="js/schedule.js"></script>
 <script src="js/seasonal.js"></script>
+<script src="js/fees.js"></script>
 <script src="news.js"></script>
 <script src="js/main.js"></script>
 </body>

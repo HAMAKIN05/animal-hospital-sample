@@ -87,6 +87,56 @@
     return when + " " + fmtT(n.start) + "〜";
   }
 
+  /* ---------- 診療内容・費用・リスクの目安（fees.js） ---------- */
+  var F = window.FEES || { items: [], contact: {} };
+  var ON_INDEX = !!document.getElementById("fees-list");
+  function feeById(id) { for (var i = 0; i < F.items.length; i++) if (F.items[i].id === id) return F.items[i]; return null; }
+  /* 明示した id ＋ 本文キーワードから自動検出した id（重複なし・fees.js の並び順） */
+  function feeIds(explicit, text) {
+    var set = {};
+    (explicit || []).forEach(function (id) { if (feeById(id)) set[id] = 1; });
+    F.items.forEach(function (it) { if (it.match && new RegExp(it.match).test(text || "")) set[it.id] = 1; });
+    return F.items.filter(function (it) { return set[it.id]; }).map(function (it) { return it.id; });
+  }
+  function legalNotes(ids, text) {
+    var h = "";
+    if ((text && text.indexOf("狂犬病") >= 0) || ids.indexOf("rabies") >= 0) h += '<p class="legal-note">' + esc(window.RABIES_NOTE || "") + "</p>";
+    if ((text && text.indexOf("マイクロチップ") >= 0) || ids.indexOf("microchip") >= 0) h += '<p class="legal-note">' + esc(window.MICROCHIP_NOTE || "") + "</p>";
+    return h;
+  }
+  function feeHref(id) { return (ON_INDEX ? "" : "index.html") + "#fee-" + id; }
+  function feeLinks(ids) {
+    if (!ids.length) return "";
+    return '<p class="fee-links"><span>内容・費用・リスクの目安</span>' + ids.map(function (id) {
+      return '<a href="' + feeHref(id) + '">' + esc(feeById(id).name) + "</a>";
+    }).join("") + "</p>";
+  }
+  function contactHtml() {
+    return '<dl class="fee-contact"><dt>問合せ先</dt><dd>' + esc(F.contact.clinic || "") + "</dd><dt>診療時間外</dt><dd>" + esc(F.contact.afterHours || "") + "</dd></dl>";
+  }
+  function priceTable(it) {
+    return '<table class="fee-price"><caption class="sr-only">' + esc(it.name) + "の費用（税込）</caption><tbody>" +
+      it.prices.map(function (p) { return '<tr><th scope="row">' + esc(p[0]) + "</th><td>" + esc(p[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
+  }
+  function feeCard(it, compact) {
+    var legal = it.legal === "rabies" ? window.RABIES_NOTE : it.legal === "microchip" ? window.MICROCHIP_NOTE : "";
+    return '<article class="fee' + (compact ? " fee-compact" : "") + '"' + (compact ? "" : ' id="fee-' + it.id + '"') + ">" +
+      "<h3>" + esc(it.name) + '<small>対象：' + esc(it.target) + "</small></h3>" +
+      '<dl class="fee-dl">' +
+      "<dt>通常必要とされる診療内容</dt><dd>" + esc(it.content) + "</dd>" +
+      "<dt>通院回数の目安</dt><dd>" + esc(it.visits) + "</dd>" +
+      "<dt>主なリスク・副作用</dt><dd>" + esc(it.risks) + "</dd>" +
+      "<dt>費用（税込）</dt><dd>" + priceTable(it) + (it.note ? '<p class="fee-note">' + esc(it.note) + "</p>" : "") + "</dd>" +
+      "</dl>" + (legal ? '<p class="legal-note">' + esc(legal) + "</p>" : "") + contactHtml() + "</article>";
+  }
+  function renderFees() {
+    var box = document.getElementById("fees-list");
+    if (!box) return;
+    box.innerHTML = F.items.map(function (it) { return feeCard(it, false); }).join("");
+    var c = document.getElementById("fees-contact");
+    if (c) c.innerHTML = contactHtml();
+  }
+
   /* ---------- 本日の診療状況 ---------- */
   function renderStatus() {
     var st = currentStatus(NOW), info = st.info, n = nextOpening(NOW);
@@ -106,7 +156,7 @@
     var sub = "";
     if (st.state === "open") sub = fmtT(st.until) + " まで診療しています（受付は終了" + S.receptionCloseMinutes + "分前まで）。";
     if (st.state === "lastcall") sub = "受付はまもなく終了します。お急ぎの方はお電話ください。";
-    if (st.state === "break") sub = "午後の診療は " + fmtT(st.at) + " からです。この時間は手術・往診を行っています。";
+    if (st.state === "break") sub = "午後の診療は " + fmtT(st.at) + " からです（この時間は受付をお休みしています）。";
     if (st.state === "before") sub = "診療開始までもう少しお待ちください。";
     if (st.state === "done") sub = "本日もありがとうございました。";
     if (st.state === "closed") sub = info.reason + "。";
@@ -226,10 +276,17 @@
       '<p class="season-kicker">' + (shownSeason === curSeason ? mon + "月のからだケア" : esc(g.season) + "（" + g.months.join("・") + "月）のからだケア") + "</p>" +
       "<h3>" + esc(g.title) + "</h3><p class=\"season-lead\">" + esc(g.lead) + "</p>" +
       '<ol class="tips">' + g.tips.map(function (t) { return "<li><strong>" + esc(t[0]) + "</strong><span>" + esc(t[1]) + "</span></li>"; }).join("") + "</ol>";
+    var gText = g.title + g.lead + g.tips.map(function (t) { return t.join(""); }).join("") + g.reminder.text;
+    var gIds = feeIds(g.fees, gText);
+    box.innerHTML += legalNotes(gIds, gText) + feeLinks(gIds);
 
     var c = G[curSeason];
     var r = document.getElementById("reminder");
-    if (r) r.innerHTML = '<span class="rm-label">' + esc(c.reminder.label) + "</span><p>" + esc(c.reminder.text) + "</p>";
+    if (r) {
+      var rIds = feeIds(c.fees, c.reminder.text);
+      r.innerHTML = '<span class="rm-label">' + esc(c.reminder.label) + "</span><div><p>" + esc(c.reminder.text) + "</p>" +
+        legalNotes(feeIds([], c.reminder.text), c.reminder.text) + feeLinks(rIds) + "</div>";
+    }
     var hs = document.getElementById("hero-season");
     if (hs) hs.innerHTML = "<b>" + mon + "月のからだケア</b>" + esc(c.title) + " →";
   }
@@ -265,6 +322,17 @@
     }).join("");
   }
 
+  /* 記事で触れた診療の「内容・リスク・費用・問合せ先」を記事の下に併記 */
+  function newsFees(n) {
+    var text = n.title + n.body, ids = feeIds(n.fees, text);
+    var h = "";  // 狂犬病・マイクロチップの法定説明は、該当する目安カードの中に含まれます
+    if (ids.length) {
+      h += '<div class="news-fees"><p class="news-fees-ttl">この記事に関する診療の内容・費用・リスクの目安<small>※金額は架空のサンプルです（税込）</small></p>' +
+        ids.map(function (id) { return feeCard(feeById(id), true); }).join("") + "</div>";
+    }
+    return h;
+  }
+
   function renderNewsAll() {
     var box = document.getElementById("news-all");
     if (!box) return;
@@ -278,7 +346,7 @@
         return '<article class="news-item c-' + catKey(n.category) + '" id="' + newsId(n) + '">' +
           '<p class="nc-meta"><span class="cat">' + esc(n.category) + "</span>" + (isNew(n) ? '<span class="new">NEW</span>' : "") +
           '<time datetime="' + n.date + '">' + dateLabel(n) + "</time></p>" +
-          "<h2>" + esc(n.title) + "</h2><p>" + bodyHtml(n.body) + "</p></article>";
+          "<h2>" + esc(n.title) + "</h2><p>" + bodyHtml(n.body) + "</p>" + newsFees(n) + "</article>";
       }).join("");
     }
     draw();
@@ -312,6 +380,7 @@
   }
 
   common();
+  renderFees();
   renderStatus();
   renderCalendar();
   highlightHours();
